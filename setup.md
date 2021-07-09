@@ -1,5 +1,5 @@
 
-# Setup for the course
+# Setup for the workshop
 You will need:
 
 1. a [GitHub](https://github.com/) account
