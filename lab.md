@@ -161,7 +161,7 @@ Save the file, and refresh your browser page (if it hasn't done so automatically
 Similar to the `css/style.css` folder/file, let's create the `js/map.js` file.
 
 1. Create a `js` folder
-1. Create a `map.js` file in hte `js` folder
+1. Create a `map.js` file in the `js` folder
 
 Your file structure should look like this:
 
@@ -209,14 +209,9 @@ Replace the "My Map" text in your `content` div with the following:
 <div id="map"></div>
 ```
 
-### Part 3: Javascript time
-
-Now we are finally ready to create our interactive web map. Remember that interactive web development uses Javascript, so we first need to create a space in our html page that allows us to write javascript code.
-
-
 ### Part 4: Leaflet javascript
 
-Delete the alert and console lines. Add the following leaflet "starter" code inside the `<script></script>` tags:
+Clear your `map.js` file by deleting the alert and console lines. Add the following leaflet "starter" code:
 
 ```javascript
 var map = L.map('map').setView([34.0697,-118.4432], 17);
