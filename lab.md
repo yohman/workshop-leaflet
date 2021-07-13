@@ -782,7 +782,7 @@ Finally, add the call to the newly created `readCSV(path)` function inside the i
 ```js
 // initialize
 $( document ).ready(function() {
-	createMap(lat,lon,zl);
+	createMap();
 	readCSV(path);
 });
 ```
