@@ -789,12 +789,6 @@ $( document ).ready(function() {
 
 Open the developer's tools and checkout the console output. How is the data structured?
 
-### Sidenote about hosting csv files on GitHub
-
-Note that the path can lead to a local file via a relative path, or it can be a csv file hosted on the web, like on a github account. If you are linking to a csv file on a GitHub account ([example](https://github.com/yohman/21S-DH151/blob/main/Weeks/Week04/Lab/data/dunitz.csv)), make sure you link to the raw url link:
-
-<kbd><img src="images/raw.png"></kbd>
-
 ### Create the function to map the csv data
 
 Notice that the `readCSV` function ends with a call to yet another function `mapCSV()`, hence, creating an error in your console because it is asking for a function that does not exist. So let's create the `mapCSV()` function, that takes in the data from the csv file, creates a marker for each element, and maps it.
@@ -804,7 +798,6 @@ First, we need to create a global variable for our featuregroup. Why? Note that 
 In the global variables area up top, add the following entry:
 
 ```js
-// global variables
 let markers = L.featureGroup();
 ```
 
@@ -902,52 +895,6 @@ function mapCSV(data){
 ```
 <img src="images/popup.png">
 
-### Add images to sidebar
+# Examples of Student Projects
 
-Below, notice the code added within the `forEach` loop that adds the thumbnail image to the sidebar, along with a function to pan to it.
-
-```js
-function mapCSV(data){
-
-// circle options
-	let circleOptions = {
-		radius: 5,
-		weight: 1,
-		color: 'white',
-		fillColor: 'dodgerblue',
-		fillOpacity: 1
-	}
-
-	// loop through each entry
-	data.data.forEach(function(item,index){
-		// create a marker
-		let marker = L.circleMarker([item.latitude,item.longitude],circleOptions)
-		.on('mouseover',function(){
-			this.bindPopup(`${item.title}<br><img src="${item.thumbnail_url}">`).openPopup()
-		})
-
-		// add marker to featuregroup
-		markers.addLayer(marker)
-
-		// add entry to sidebar
-		$('.sidebar').append(`<img src="${item.thumbnail_url}" onmouseover="panToImage(${index})">`)
-	})
-
-	// add featuregroup to map
-	markers.addTo(map)
-
-	// fit map to markers
-	map.fitBounds(markers.getBounds())
-}
-```
-
-Images are now in the sidebar with a call to a new function to pan to the image. Notice that the `panTo` function, unlike the `flyTo` function, does not include a zoomlevel option, so it has to be defined as a separate line of code.
-
-```js
-function panToImage(index){
-	// zoom to level 17 first
-	map.setZoom(17);
-	// pan to the marker
-	map.panTo(markers.getLayers()[index]._latlng);
-}
-```
+https://yohman.github.io/21S-DH151/Final%20Projects/
