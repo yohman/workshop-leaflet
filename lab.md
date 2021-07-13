@@ -228,7 +228,8 @@ var marker = L.marker([34.0697,-118.4432]).addTo(map)
 > ### Make it your own
 > Now that you have command over your maproom, modify it and make it your own. Try:
 > 1. Change the map marker location to a place of your interest
-> 1. Add relevant content in the header and sidebar sections
+> 1. Change the popup content
+> 1. Add relevant content in the header, sidebar, and footer sections
 > 1. Change the colors in the stylesheet, and if you are adventurous, change other stylesheet parameters
 > 1. Add more markers to the map, with appropriate popup content
 
@@ -238,7 +239,7 @@ Now that you are satisfied with your _local_ version of your maproom, it is time
 
 VS Code comes replete with GitHub features. Let's take full advantage of them. 
 
-1. Click on the `Source Control` tab, check that you have files that have been added/modified, and then
+1. Click on the `Source Control` tab, check that you have files that have been added/modified (these will be listed under the `Changes` section), and then
 1. add a message text for your commit, and
 1. commit your changes by clicking on the checkbox icon.
 
@@ -253,7 +254,11 @@ There is one step left. You have just commited your changes to your _local_ repo
 
 ## View your website
 
-Assuming you have GitHub pages enabled, you should now be able to see your website with a public URL. Change the url to match your own GitHub pages url.
+Go to your GitHub repo page. If your commit was successful, you should see your html, css, and js files there!
+
+<img src="images/firstcommit.png">
+
+Assuming you have GitHub pages enabled, you should now be able to see your website with a public URL. Change the url below to match your own GitHub pages url.
 
 *Note that it may take a minute or two after you commit your files for them to be available on GitHub pages.*
 
