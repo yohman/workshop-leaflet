@@ -625,7 +625,7 @@ $('#map').fadeIn(2000)
 
 So how is all this useful for our maproom? While we learned how to add markers from an array of objects, we can use the same logic to add content to the sidebar.
 
-If you were successful in your Week 2 lab, you should have a loop in your code that looks like this:
+You should have a loop in your code that looks like this:
 
 ```js
 // loop through data
@@ -672,6 +672,21 @@ data.forEach(function(item){
 })
 ```
 
+### Create new css entry
+
+Next, we need to create a css entry in our stylesheet to style our divs with class `sidebar-item`.
+
+Add the following css in your `Week3/css/style.css` file:
+
+```css
+.sidebar-item {
+    padding: 10px; /* adds inner padding */
+    background: gainsboro; /* background color */
+    border: 1px solid gray; /* border width, style, and color */
+    margin: 5px; /* outer padding */
+}
+```
+Refresh your page in your browser to see your new css style applied to the sidebar elements. Take some time to adjust the css components to match your site design and layout.
 
 
 ## CSV data driven maproom
