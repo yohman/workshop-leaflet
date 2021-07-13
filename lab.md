@@ -34,6 +34,7 @@ Once installed, you will be able to open an .html file, and click on the "go liv
 
 ## Create your first html page
 
+1. Click on the `File Explorer` tab
 1. Click on `New file` icon
 1. Enter `index.html` as the file name
 
@@ -42,7 +43,6 @@ Once installed, you will be able to open an .html file, and click on the "go liv
 The file should popup as an empty tab on the right. Enter (copy and paste) the following code:
 
 ```html
-<!DOCTYPE html>
 <html>
 <head>
 	<title>Hello World</title>
@@ -67,6 +67,9 @@ The file should popup as an empty tab on the right. Enter (copy and paste) the f
 		My Footer
 	</div>
 
+	<!-- javascript -->
+	<script src="js/map.js"></script>
+	
 </body>
 </html>
 ```
@@ -96,7 +99,7 @@ Click on the `console` tab
 
 ## Create a css stylesheet file
 
-As noted, the html code assumes you have a css file.
+As noted, the html code assumes you have a css file named `style.css` and a javascript file named `map.js`. Create the css file first:
 
 1. Click on the create new folder button
 1. Name the folder `css`
@@ -146,7 +149,7 @@ body {
 }
 ```
 
-Save the file, and refresh your browser page that has `index.html`
+Save the file, and refresh your browser page (if it hasn't done so automatically) that has `index.html`.
 
 > How did the css file affect the page?
 > 1. The text in your header is now black on a dark background. Change the text color to white (hint: use `font-color`)
