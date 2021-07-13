@@ -516,7 +516,7 @@ data.forEach(function(item){
 })
 ```
 
-## Using a `featureGroup` for your markers
+### Using a `featureGroup` for your markers
 
 Currently, we are mapping each marker, one at a time. Since our markers are part of a collection, it is adviced to put them in a leaflet `featureGroup` [link](https://leafletjs.com/reference-1.7.1.html#featuregroup).
 
@@ -538,7 +538,17 @@ data.forEach(function(item){
 myMarkers.addTo(map)
 ```
 
-### Add jQuery
+### Zoom to the extent of your markers
+
+The final step to complete the first version of your maproom is to zoom to the extent of your markers. Leaflet comes with some handy geospatial functions, one of which calculates the boundary extent of your featuregroup. You can add the following to the end of your code to zoom to the extent of your markers:
+
+```js
+// zoom to the extent of all markers
+map.fitBounds(myMarkers.getBounds())
+```
+
+## Add jQuery
+
 What is [jQuery](https://jquery.com/)?
 > jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. With a combination of versatility and extensibility, jQuery has changed the way that millions of people write JavaScript.
 
