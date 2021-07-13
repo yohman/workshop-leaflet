@@ -62,3 +62,4 @@ git config --global user.email johndoe@example.com
 
 - Install the text editor [Visual Studio Code](https://code.visualstudio.com/download)
 
+That's it! Please make sure to have these applications ready to go for our live session.
