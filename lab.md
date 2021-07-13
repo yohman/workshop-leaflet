@@ -293,7 +293,7 @@ In your Chrome browser, you should now see your index.html file with a fully int
 
 When loading a web page which is associated with one or more scripts, the JavaScript code is automatically interpreted and executed by the browser. We can also manually interact with the browser’s interpreter or engine using the JavaScript console, also known as the command line, which is built into all modern web browsers. The console is basically a way to type code into a computer and get the computer’s answer back. This is useful for experimenting with JavaScript code, such as quickly testing short JavaScript code snippets. It is exactly what we are going to do.
 
-## Developer's tools
+### Developer's tools
 
 Open the developer's tools (ctrl-shift-i) and select the console tab.
 
@@ -465,23 +465,198 @@ data.forEach(function(item){
 	console.log('The latitude for ' + item.title + ' is ' + item.lat)
 });
 ```
-Challenge exercise:
-1. Add a `description` key to the data array objects, and enter a sentence per city.
-1. Loop through each data object, and create the following statement for each city: 
 
-`The coordinates for _city_ are _lat_, _lon_. _City_ is _description_.`
 
-### In-class Exercise (time permitting)
 
-Now it is your turn to put all this newfound javascript knowledge into practice.
+### Adding markers with a loop
 
-1. In your `index.html` file, and in the javascript section of your code (`<script></script>`), create an array of objects that lists locations that you have travelled to (include at least 5 locations). Make sure to include a title, description, latitude, and longitude for each.
-1. Replace the code that generates the single marker with a loop that goes through your array of objects. Then, create a marker for each location. Make sure to include a title and description in the popup.
-1. Add a title of your maproom in the header section.
-1. Add a title and description of your map in the sidebar section.
-1. When you are done, upload your additions to your GitHub Repo 
+Now that we have the basics of javascript loops down, we can utilize it to generate multiple markers at once.
 
-**Bonus**: Add an image for each city in your narrative.
+At the very top of your `map.js` file, add the code that generates the data that consists of objects within an array. Feel free to change the title and locations to areas of interest to you:
+
+```js
+let data = [
+	{
+		'title':'Osaka',
+		'lat': 34.6937,
+		'lon': 135.5023
+	},
+	{
+		'title':'Cali',
+		'lat': 3.4516,
+		'lon': -76.5320
+	},
+	{
+		'title':'Bangkok',
+		'lat': 13.7563,
+		'lon': 100.5018
+	},
+	{
+		'title':'Tokyo',
+		'lat': 35.6762,
+		'lon': 139.6503
+	},
+	{
+		'title':'LA',
+		'lat': 34.0522,
+		'lon': -118.2437
+	}
+]
+```
+
+Next, modify the marker code by converting it into a loop:
+
+
+```js
+// loop through data
+data.forEach(function(item){
+	// add marker to map
+	let marker = L.marker([item.lat,item.lon]).addTo(map)
+		.bindPopup(item.title)
+})
+```
+
+## Using a `featureGroup` for your markers
+
+Currently, we are mapping each marker, one at a time. Since our markers are part of a collection, it is adviced to put them in a leaflet `featureGroup` [link](https://leafletjs.com/reference-1.7.1.html#featuregroup).
+
+```js
+// before looping the data, create an empty FeatureGroup
+let myMarkers = L.featureGroup();
+
+// loop through data
+data.forEach(function(item){
+	// create marker
+	let marker = L.marker([item.lat,item.lon]).bindPopup(item.title)
+
+	// add marker to featuregroup
+	myMarkers.addLayer(marker)
+
+})
+
+// after loop, add the FeatureGroup to map
+myMarkers.addTo(map)
+```
+
+### Add jQuery
+What is [jQuery](https://jquery.com/)?
+> jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. With a combination of versatility and extensibility, jQuery has changed the way that millions of people write JavaScript.
+
+Add jQuery (v3.6.0 at the time of this writing) using the CDN (link provided [here](https://code.jquery.com/)) to the `<head></head>` area of your `index.html` file.
+
+```html
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+```
+
+### Selecting elements
+jQuery makes it easy to select elements (like a `<div>`) and do *something* with it. Let's experiment using your browser's developer tools.
+1. Open `Week3/index.html` in a chrome browser (if you installed the "Live Server" extension, you can click on the "Go Live" button)
+1. Access the developer tools (ctrl/command+shift+i), and select the console tab
+
+#### Selecting elements by class name
+
+Our `index.html` file has elements with `class` attributes in them. A `class` is a way to identify an element in your website. You should have div's with the following `class` attributes:
+- header
+- sidebar
+- content
+
+Let's do some magic. Note that selecting a class element uses the dot `.` notation:
+
+```js
+$('.header').hide()
+```
+Wow! Now take a wild guess, and figure out how to bring the header back.
+
+```js
+$('.header').show()
+```
+
+Try these other fun ones:
+
+```js
+$('.header').fadeOut()
+```
+```js
+$('.header').fadeIn()
+```
+You can also manipulate the content.
+```js
+$('.header').prepend('Hello!')
+```
+```js
+$('.header').append('Goodbye!')
+```
+```js
+$('.header').html("I'm a brand <b>new</b> header!")
+```
+Try these functions on the sidebar as well.
+
+#### Selecting elements by id
+Your `index.html` file has one div with an `id` attribute:
+- map
+
+Selecting an element by id uses a hashtag `#` notation:
+
+```js
+// fade out slowly, like 1000 milliseconds
+$('#map').fadeOut(1000)
+```
+```js
+// fade in slowly, like 2000 milliseconds
+$('#map').fadeIn(2000)
+```
+
+> **NOTE**: Remember, `.` for classes, and `#` for ids. This notation is the same for stylesheet declarations, which we will cover later.
+
+### Adding dynamic content to the sidebar
+
+<kbd><img src="images/sidebar.png"></kbd>
+
+So how is all this useful for our maproom? While we learned how to add markers from an array of objects, we can use the same logic to add content to the sidebar.
+
+If you were successful in your Week 2 lab, you should have a loop in your code that looks like this:
+
+```js
+// loop through data
+data.forEach(function(item){
+	// add marker to map
+	let marker = L.marker([item.lat,item.lon]).addTo(map)
+		.bindPopup(item.title)
+})
+```
+
+You can use this same loop to add content to the sidebar:
+
+```js
+// loop through data
+data.forEach(function(item){
+	// add marker to map
+	let marker = L.marker([item.lat,item.lon]).addTo(map)
+		.bindPopup(item.title)
+
+	// add data to sidebar
+	$('.sidebar').append(item.title)
+})
+```
+Notice how `.append` adds the title of each location to the sidebar, but it does not consider text spacing, new lines, or layout. 
+
+Let's create a "card" like style for each item in the sidebar. To do so, wrap the content in a `<div></div>` container, adding a class attribute `class="sidebar-item"` so that we can style it later. Also notice how we are concatenating string values with variables (yes, it's getting complicated):
+
+```js
+// loop through data
+data.forEach(function(item){
+	// add marker to map
+	let marker = L.marker([item.lat,item.lon]).addTo(map)
+		.bindPopup(item.title)
+
+	// add data to sidebar
+	$('.sidebar').append('<div class="sidebar-item">'+item.title+'</div>')
+})
+```
+
+
+
 
 ## CSV data driven maproom
 
