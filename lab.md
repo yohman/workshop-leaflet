@@ -19,6 +19,19 @@ In your Welcome window, (1) click on the `source control` menu icon on the left,
 
 You will be asked to choose a location on your hard drive to save the files. If you are prompted to open the repository, do so.
 
+### Install Live Server
+
+Live Server is a great VSCode extension that allows you to see your html code on a local browser window.
+
+1. Click on the extensions tab
+1. Enter "live server" in the search box
+1. Click on the install button next to Live Server
+
+<kbd><img src="images/live.png"></kbd>
+
+Once installed, you will be able to open an .html file, and click on the "go live" button. We will do this shortly, so hang on tight!
+
+
 ## Create your first html page
 
 1. Click on `New file` icon
@@ -50,6 +63,9 @@ The file should popup as an empty tab on the right. Enter (copy and paste) the f
 	<div class="content">
 		My Map
 	</div>
+	<div class="footer">
+		My Footer
+	</div>
 
 </body>
 </html>
@@ -61,7 +77,9 @@ The file should popup as an empty tab on the right. Enter (copy and paste) the f
 > 3. What do you think is a stylesheet?
 > 4. What are classes?
 
-Save the file and open it in chrome. Hint: right click on your `index.html` file and `reveal in file explorer`. Then, double click on the file.
+Save the file and open it by clicking on the `Go Live` button as shown below:
+
+<kbd><img src="images/golive.png">
 
 > What do you see in the browser?
 > 1. What happens if you change the "Hello World" text to something else?
@@ -100,26 +118,31 @@ body,html {
 }
 
 body {
-    display: grid;
-	grid-template-rows: 80px 1fr;
-	grid-template-columns: 250px 1fr;
+	display: grid;
+	grid-template-rows: 80px 1fr 50px;
+	grid-template-columns: 50% 50%;
 	grid-template-areas: 
 	"header header"
-	"sidebar content";
+	"sidebar content"
+	"footer footer";
 }
 
 .header {
 	grid-area: header;
 	padding:10px;
-    background-color: #333;
+	background-color: #333;
+	color: white;
+	font-size: 2em;
 }
-.sidebar {
-	grid-area: sidebar;
-	padding:10px;
-    background-color: #555;
-}
+
 .content {
 	grid-area: content;
+}
+
+.footer {
+	grid-area: footer;
+	padding:10px;
+	background-color: rgb(175, 175, 175);
 }
 ```
 
@@ -435,7 +458,7 @@ Challenge exercise:
 
 `The coordinates for _city_ are _lat_, _lon_. _City_ is _description_.`
 
-## In-class Exercise (time permitting)
+### In-class Exercise (time permitting)
 
 Now it is your turn to put all this newfound javascript knowledge into practice.
 
@@ -446,3 +469,228 @@ Now it is your turn to put all this newfound javascript knowledge into practice.
 1. When you are done, upload your additions to your GitHub Repo 
 
 **Bonus**: Add an image for each city in your narrative.
+
+## CSV data driven maproom
+
+In previous labs, we have created our own data using javascript objects. Here, we will learn how to import data from a csv file.
+
+### Import PapaParse
+
+CSV is not natively supported by javascript. In order to import CSV, we will use an open source in-browser CSV parser library called [PapaParse](https://www.papaparse.com/).
+
+To use PapaParse, download the source js file, and save it in your `js` folder:
+
+- https://unpkg.com/papaparse@5.3.0/papaparse.min.js
+
+Then, add the file to your `index.html` file in the header section:
+
+```html
+<script src="js/papaparse.min.js"></script>
+```
+> **Question:** Why download the file when you can link to it remotely?
+
+### Create a csv file
+
+Create a `data` folder. Download and add the `dunitz.csv` file from [here](https://raw.githubusercontent.com/yohman/21S-DH151/main/Weeks/Week04/Lab/data/dunitz.csv).
+
+### Create a `readCSV()` function
+
+First, add the path as a global variable in the `//global variable` section of `map.js`.
+
+```js
+// path to csv data
+let path = "data/dunitz.csv";
+```
+
+Next, create a function that will read the csv file using PapaParse. You can put the function under the `createMap` function.
+
+```js
+// function to read csv data
+function readCSV(path){
+	Papa.parse(path, {
+		header: true,
+		download: true,
+		complete: function(data) {
+			console.log(data);
+			
+			// map the data
+			mapCSV(data);
+
+		}
+	});
+}
+```
+Finally, add the call to the newly created `readCSV(path)` function inside the initialize code, right after the `createMap()` call:
+
+```js
+// initialize
+$( document ).ready(function() {
+	createMap(lat,lon,zl);
+	readCSV(path);
+});
+```
+
+Open the developer's tools and checkout the console output. How is the data structured?
+
+### Sidenote about hosting csv files on GitHub
+
+Note that the path can lead to a local file via a relative path, or it can be a csv file hosted on the web, like on a github account. If you are linking to a csv file on a GitHub account ([example](https://github.com/yohman/21S-DH151/blob/main/Weeks/Week04/Lab/data/dunitz.csv)), make sure you link to the raw url link:
+
+<kbd><img src="images/raw.png"></kbd>
+
+### Create the function to map the csv data
+
+Notice that the `readCSV` function ends with a call to yet another function `mapCSV()`, hence, creating an error in your console because it is asking for a function that does not exist. So let's create the `mapCSV()` function, that takes in the data from the csv file, creates a marker for each element, and maps it.
+
+First, we need to create a global variable for our featuregroup. Why? Note that variables created *within* a function are only available *within* that function and cannot be accessed outside of it. Therefore, if you create the variable as a global variable, it can be accessed within any other function you create.
+
+In the global variables area up top, add the following entry:
+
+```js
+// global variables
+let markers = L.featureGroup();
+```
+
+Next, create the `mapCSV` function:
+
+```js
+function mapCSV(data){
+	
+	// loop through each entry
+	data.data.forEach(function(item,index){
+		// create marker
+		let marker = L.marker([item.latitude,item.longitude])
+
+		// add marker to featuregroup
+		markers.addLayer(marker)
+	})
+
+	// add featuregroup to map
+	markers.addTo(map)
+
+	// fit markers to map
+	map.fitBounds(markers.getBounds())
+}
+```
+<img src="images/markers.png">
+
+### Changing markers to circles
+
+The icon marker is now overcrowding the map. While you can design your own icons, another option is to use `circleMarker`.
+
+- [CircleMarker documentation](https://leafletjs.com/reference-1.7.1.html#circlemarker)
+
+```js
+function mapCSV(data){
+	
+	// circle options
+	let circleOptions = {
+		radius: 5,
+		weight: 1,
+		color: 'white',
+		fillColor: 'dodgerblue',
+		fillOpacity: 1
+	}
+
+	// loop through each entry
+	data.data.forEach(function(item,index){
+		// create marker
+		let marker = L.circleMarker([item.latitude,item.longitude],circleOptions)
+
+		// add marker to featuregroup		
+		markers.addLayer(marker)
+	})
+
+	// add featuregroup to map
+	markers.addTo(map)
+
+	// fit markers to map
+	map.fitBounds(markers.getBounds())
+}
+```
+<img src="images/circles.png">
+
+### Adding on hover event (instead of on click)
+
+```js
+function mapCSV(data){
+
+	// circle options
+	let circleOptions = {
+		radius: 5,
+		weight: 1,
+		color: 'white',
+		fillColor: 'dodgerblue',
+		fillOpacity: 1
+	}
+
+	// loop through each entry
+	data.data.forEach(function(item,index){
+		// create a marker
+		let marker = L.circleMarker([item.latitude,item.longitude],circleOptions)
+		.on('mouseover',function(){
+			this.bindPopup(`${item.title}<br><img src="${item.thumbnail_url}">`).openPopup()
+		})
+
+		// add marker to featuregroup
+		markers.addLayer(marker)
+	})
+
+	// add featuregroup to map
+	markers.addTo(map)
+
+	// fit map to markers
+	map.fitBounds(markers.getBounds())
+}
+```
+<img src="images/popup.png">
+
+### Add images to sidebar
+
+Below, notice the code added within the `forEach` loop that adds the thumbnail image to the sidebar, along with a function to pan to it.
+
+```js
+function mapCSV(data){
+
+// circle options
+	let circleOptions = {
+		radius: 5,
+		weight: 1,
+		color: 'white',
+		fillColor: 'dodgerblue',
+		fillOpacity: 1
+	}
+
+	// loop through each entry
+	data.data.forEach(function(item,index){
+		// create a marker
+		let marker = L.circleMarker([item.latitude,item.longitude],circleOptions)
+		.on('mouseover',function(){
+			this.bindPopup(`${item.title}<br><img src="${item.thumbnail_url}">`).openPopup()
+		})
+
+		// add marker to featuregroup
+		markers.addLayer(marker)
+
+		// add entry to sidebar
+		$('.sidebar').append(`<img src="${item.thumbnail_url}" onmouseover="panToImage(${index})">`)
+	})
+
+	// add featuregroup to map
+	markers.addTo(map)
+
+	// fit map to markers
+	map.fitBounds(markers.getBounds())
+}
+```
+
+Images are now in the sidebar with a call to a new function to pan to the image. Notice that the `panTo` function, unlike the `flyTo` function, does not include a zoomlevel option, so it has to be defined as a separate line of code.
+
+```js
+function panToImage(index){
+	// zoom to level 17 first
+	map.setZoom(17);
+	// pan to the marker
+	map.panTo(markers.getLayers()[index]._latlng);
+}
+```
