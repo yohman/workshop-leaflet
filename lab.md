@@ -156,6 +156,28 @@ Save the file, and refresh your browser page (if it hasn't done so automatically
 > 1. Choose colors of your liking, and modify the `background-color` values for your `header` and `sidebar`
 > 1. Modify the `font-color` appropriately so that there is enough contrast between the text color and the background color.
 
+## Create a javascript file
+
+Similar to the `css/style.css` folder/file, let's create the `js/map.js` file.
+
+1. Create a `js` folder
+1. Create a `map.js` file in hte `js` folder
+
+Your file structure should look like this:
+
+<img src="images/mapjs.png">
+
+Enter the following javascript code in your `map.js` file, and save it.
+
+```js
+alert('hello javascript alert!')
+console.log('hello console!')
+```
+
+> Save the file, and refresh the page in your browser. 
+> 1. What happens?
+> 1. Open your developer tools/console window. Do you see your message?
+
 ## Map time!
 
 Now it is time to add a map to our html page. This is a multi-step process that entails the following:
@@ -191,18 +213,6 @@ Replace the "My Map" text in your `content` div with the following:
 
 Now we are finally ready to create our interactive web map. Remember that interactive web development uses Javascript, so we first need to create a space in our html page that allows us to write javascript code.
 
-Inside the `<body></body>` tags, and right after that last closing `</div>` tag, enter the following:
-
-```html
-<script>
-	alert('hello javascript alert!')
-	console.log('hello console!')
-</script>
-```
-
-> Save the file, and refresh the page in your browser. 
-> 1. What happens?
-> 1. Open your developer tools/console window. Do you see your message?
 
 ### Part 4: Leaflet javascript
 
