@@ -123,7 +123,7 @@ body,html {
 body {
 	display: grid;
 	grid-template-rows: 80px 1fr 50px;
-	grid-template-columns: 50% 50%;
+	grid-template-columns: 300px 1fr;
 	grid-template-areas: 
 	"header header"
 	"sidebar content"
@@ -466,15 +466,14 @@ data.forEach(function(item){
 });
 ```
 
-
-
 ### Adding markers with a loop
 
 Now that we have the basics of javascript loops down, we can utilize it to generate multiple markers at once.
 
-At the very top of your `map.js` file, add the code that generates the data that consists of objects within an array. Feel free to change the title and locations to areas of interest to you:
+At the very top of your `map.js` file, add the code that generates the data that consists of objects within an array. We will name this section of our code `globals`. Feel free to change the title and locations to areas of interest to you:
 
 ```js
+// globals
 let data = [
 	{
 		'title':'Osaka',
@@ -504,15 +503,14 @@ let data = [
 ]
 ```
 
-Next, modify the marker code by converting it into a loop:
+Next, modify the marker code by wrapping it within a loop:
 
 
 ```js
 // loop through data
 data.forEach(function(item){
 	// add marker to map
-	let marker = L.marker([item.lat,item.lon]).addTo(map)
-		.bindPopup(item.title)
+	let marker = L.marker([item.lat,item.lon]).addTo(map).bindPopup(item.title)
 })
 ```
 
@@ -520,10 +518,15 @@ data.forEach(function(item){
 
 Currently, we are mapping each marker, one at a time. Since our markers are part of a collection, it is adviced to put them in a leaflet `featureGroup` [link](https://leafletjs.com/reference-1.7.1.html#featuregroup).
 
-```js
-// before looping the data, create an empty FeatureGroup
-let myMarkers = L.featureGroup();
+First, add the `featureGroup` variable in the `globals` section:
 
+```js
+let myMarkers = L.featureGroup();
+```
+
+Next, modify the `forEach` loop by adding the marker to the `featureGroup` and then, adding the `featureGroup` to the map.
+
+```js
 // loop through data
 data.forEach(function(item){
 	// create marker
@@ -689,9 +692,44 @@ Add the following css in your `Week3/css/style.css` file:
 Refresh your page in your browser to see your new css style applied to the sidebar elements. Take some time to adjust the css components to match your site design and layout.
 
 
-## CSV data driven maproom
+# Building a data driven maproom
 
-In previous labs, we have created our own data using javascript objects. Here, we will learn how to import data from a csv file.
+In the previous section, we created our own data using javascript objects. Here, we will learn how to import data from a csv file.
+
+### Cleaning up your maproom
+
+Before we begin, let's clean up your `map.js` file. To make things easy, replace your code with the following "starter" code:
+
+```js
+// Global variables
+let map;
+
+// initialize
+$( document ).ready(function() {
+    createMap();
+});
+
+// create the map
+function createMap(){
+	map = L.map('map').setView([0,0],3);
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+}
+```
+
+This should get rid of the markers and default to a world map. 
+
+Notice that there is now an `initialize` section, which tells your javascript to do something once the document is loaded in the browser.
+
+Next, notice that the code to create a map is now wrapped around a function called `createMap()`. While we will not be covering functions in detail in this workshop, note that functions allow you to group code together where you can call it with a single line of code, or, using a function call.
+
+To review, this code now does the following:
+
+1. has a section that defines global variables
+1. has an initializer that happens when the page loads
+1. has a function that is called from the initializer that creates an interactive world map
 
 ### Import PapaParse
 
