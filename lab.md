@@ -561,7 +561,7 @@ Add jQuery (v3.6.0 at the time of this writing) using the CDN (link provided [he
 
 ### Selecting elements
 jQuery makes it easy to select elements (like a `<div>`) and do *something* with it. Let's experiment using your browser's developer tools.
-1. Open `Week3/index.html` in a chrome browser (if you installed the "Live Server" extension, you can click on the "Go Live" button)
+1. Open `index.html` in a chrome browser (if you installed the "Live Server" extension, you can click on the "Go Live" button)
 1. Access the developer tools (ctrl/command+shift+i), and select the console tab
 
 #### Selecting elements by class name
@@ -630,9 +630,11 @@ If you were successful in your Week 2 lab, you should have a loop in your code t
 ```js
 // loop through data
 data.forEach(function(item){
-	// add marker to map
-	let marker = L.marker([item.lat,item.lon]).addTo(map)
-		.bindPopup(item.title)
+	// create marker
+	let marker = L.marker([item.lat,item.lon]).bindPopup(item.title)
+
+	// add marker to featuregroup
+	myMarkers.addLayer(marker)
 })
 ```
 
@@ -641,14 +643,17 @@ You can use this same loop to add content to the sidebar:
 ```js
 // loop through data
 data.forEach(function(item){
-	// add marker to map
-	let marker = L.marker([item.lat,item.lon]).addTo(map)
-		.bindPopup(item.title)
+	// create marker
+	let marker = L.marker([item.lat,item.lon]).bindPopup(item.title)
+
+	// add marker to featuregroup
+	myMarkers.addLayer(marker)
 
 	// add data to sidebar
 	$('.sidebar').append(item.title)
 })
 ```
+
 Notice how `.append` adds the title of each location to the sidebar, but it does not consider text spacing, new lines, or layout. 
 
 Let's create a "card" like style for each item in the sidebar. To do so, wrap the content in a `<div></div>` container, adding a class attribute `class="sidebar-item"` so that we can style it later. Also notice how we are concatenating string values with variables (yes, it's getting complicated):
@@ -656,15 +661,16 @@ Let's create a "card" like style for each item in the sidebar. To do so, wrap th
 ```js
 // loop through data
 data.forEach(function(item){
-	// add marker to map
-	let marker = L.marker([item.lat,item.lon]).addTo(map)
-		.bindPopup(item.title)
+	// create marker
+	let marker = L.marker([item.lat,item.lon]).bindPopup(item.title)
+
+	// add marker to featuregroup
+	myMarkers.addLayer(marker)
 
 	// add data to sidebar
 	$('.sidebar').append('<div class="sidebar-item">'+item.title+'</div>')
 })
 ```
-
 
 
 
