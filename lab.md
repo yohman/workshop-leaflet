@@ -902,10 +902,3 @@ https://yohman.github.io/21S-DH151/Final%20Projects/
 # Resources
 
 [Class syllabus for "Web GIS: An Introduction to Digital Mapping"](https://github.com/yohman/21S-DH151)
-
-[Hands-On Data Visualization: Interactive Storytelling from Spreadsheets to Code](https://handsondataviz.org/)
-- Jack Dougherty, Ilya Ilyankou	
-
-[Introduction to Web Mapping](https://geobgu.xyz/web-mapping2/)
-- Michael Dorman
-
