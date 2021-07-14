@@ -387,9 +387,9 @@ A javascript object is a great way to store a collection of data in `key:value` 
 
 ```js
 let city = {
-	'title':'Hello Osaka',
-	'lat': 34.6937,
-	'lon': 135.5023
+	title:'Hello Osaka',
+	lat: 34.6937,
+	lon: 135.5023
 };
 ```
 
@@ -763,7 +763,7 @@ Next, create a function that will read the csv file using PapaParse. You can put
 
 ```js
 // function to read csv data
-function readCSV(path){
+function readCSV(){
 	Papa.parse(path, {
 		header: true,
 		download: true,
