@@ -245,7 +245,7 @@ VS Code comes replete with GitHub features. Let's take full advantage of them.
 
 <kbd><img src="images/vs_commit.png"></kbd>
 
-There is one step left. You have just commited your changes to your _local_ repo. You need to **push** your changes to your _online_ GitHub repo. 
+There is one step left. You have just committed your changes to your _local_ repo. You need to **push** your changes to your _online_ GitHub repo. 
 
 1. Click on the "more actions" button (triple dot)
 1. Click on `Push`
@@ -516,7 +516,7 @@ data.forEach(function(item){
 
 ### Using a `featureGroup` for your markers
 
-Currently, we are mapping each marker, one at a time. Since our markers are part of a collection, it is adviced to put them in a leaflet `featureGroup` [link](https://leafletjs.com/reference-1.7.1.html#featuregroup).
+Currently, we are mapping each marker, one at a time. Since our markers are part of a collection, it is advised to put them in a leaflet `featureGroup` [link](https://leafletjs.com/reference-1.7.1.html#featuregroup).
 
 First, add the `featureGroup` variable in the `globals` section:
 
@@ -898,3 +898,14 @@ function mapCSV(data){
 # Examples of Student Projects
 
 https://yohman.github.io/21S-DH151/Final%20Projects/
+
+# Resources
+
+[Class syllabus for "Web GIS: An Introduction to Digital Mapping"](https://github.com/yohman/21S-DH151)
+
+[Hands-On Data Visualization: Interactive Storytelling from Spreadsheets to Code](https://handsondataviz.org/)
+- Jack Dougherty, Ilya Ilyankou	
+
+[Introduction to Web Mapping](https://geobgu.xyz/web-mapping2/)
+- Michael Dorman
+
